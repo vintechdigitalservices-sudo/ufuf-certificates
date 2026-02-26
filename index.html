@@ -9,169 +9,54 @@
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@400;700;900&display=swap');
-
 :root { --primary:#004aad; --accent:#ff7a00; }
+body { font-family:Montserrat,sans-serif;background:#f0f2f5;padding:20px;display:flex;flex-direction:column;align-items:center; }
 
-body {
-  font-family: 'Montserrat', sans-serif;
-  background:#f0f2f5;
-  padding:20px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
+.form-container { background:#fff;padding:25px;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.1);width:100%;max-width:450px;margin-bottom:20px; }
+label { font-weight:700;font-size:14px; }
+input, select { width:100%;padding:12px;border:1px solid #ddd;border-radius:6px;margin-bottom:10px; }
 
-/* FORM */
-.form-container {
-  background:#fff;
-  padding:25px;
-  border-radius:12px;
-  box-shadow:0 4px 20px rgba(0,0,0,.1);
-  width:100%;
-  max-width:450px;
-  margin-bottom:20px;
-}
+.date-grid { display:grid;grid-template-columns:repeat(7,1fr);gap:5px;padding:10px;background:#fafafa;border:1px solid #ddd;border-radius:6px; }
+.date-item { text-align:center;padding:8px;border:1px solid #ccc;cursor:pointer;border-radius:4px;background:#fff;font-size:12px; }
+.date-item.selected { background:var(--primary);color:#fff; }
 
-label { font-weight:700; font-size:14px; }
-input, select {
-  width:100%;
-  padding:12px;
-  border:1px solid #ddd;
-  border-radius:6px;
-  margin-bottom:10px;
-}
+button { width:100%;padding:14px;border:none;border-radius:6px;font-weight:700;margin-top:10px;cursor:pointer; }
+#genBtn { background:var(--accent);color:#fff; }
+#downloadBtn { background:#27ae60;color:#fff;display:none; }
 
-.date-grid {
-  display:grid;
-  grid-template-columns:repeat(7,1fr);
-  gap:5px;
-  padding:10px;
-  background:#fafafa;
-  border:1px solid #ddd;
-  border-radius:6px;
-}
+#usageInfo { font-weight:800;color:#004aad;text-align:center;margin:10px 0; }
 
-.date-item {
-  text-align:center;
-  padding:8px;
-  border:1px solid #ccc;
-  cursor:pointer;
-  border-radius:4px;
-  background:#fff;
-  font-size:12px;
-}
-.date-item.selected { background:var(--primary); color:#fff; }
+#previewWrapper { display:none;margin-top:20px;animation:slideUp .7s ease forwards; }
+@keyframes slideUp { from{opacity:0;transform:translateY(60px)} to{opacity:1;transform:translateY(0)} }
 
-button {
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:6px;
-  font-weight:700;
-  margin-top:10px;
-  cursor:pointer;
-}
-#genBtn { background:var(--accent); color:#fff; }
-#downloadBtn { background:#27ae60; color:#fff; display:none; }
+#certArea { width:1000px;height:706px;position:relative;background:url('background.jpg') no-repeat center/100% 100%;overflow:hidden; }
+#mainLogo { position:absolute;top:50px;left:70px;width:95px; }
+#eventLogo { position:absolute;top:45px;right:65px;width:220px;height:120px;object-fit:contain; }
 
-/* ANIMATION */
-#previewWrapper {
-  display:none;
-  margin-top:20px;
-  animation: slideUp .7s ease forwards;
-}
-@keyframes slideUp {
-  from { opacity:0; transform:translateY(60px); }
-  to { opacity:1; transform:translateY(0); }
-}
+.overlay { position:absolute;left:50%;transform:translateX(-50%);text-align:center;width:80%; }
+#certText_Static1 { top:245px;font-weight:900;letter-spacing:2px; }
 
-/* CERTIFICATE */
-#certArea {
-  width:1000px;
-  height:706px;
-  position:relative;
-  background:url('background.jpg') no-repeat center/100% 100%;
-  overflow:hidden;
-}
+#outName { position:absolute;top:280px;left:50%;transform:translateX(-50%);font-family:'Cinzel',serif;font-size:42px;color:#8c6d1f;white-space:nowrap;max-width:60%; }
+.name-line { position:absolute;top:320px;left:50%;transform:translateX(-50%);width:50%;border-bottom:2px solid #d4af37; }
 
-/* LOGOS */
-#mainLogo { position:absolute; top:50px; left:70px; width:95px; }
-#eventLogo { position:absolute; top:45px; right:65px; width:300px; height:120px; object-fit:contain; }
+#outParticipation { top:350px;font-weight:900; }
+#outEvent { top:390px;font-size:34px;font-weight:900;color:#e31e24;line-height:1.2; }
+#outDetails { top:475px;font-weight:700;line-height:1.5; }
 
-/* TEXT */
-.overlay {
-  position:absolute;
-  left:50%;
-  transform:translateX(-50%);
-  text-align:center;
-  width:80%;
-}
+#redSeal { position:absolute;bottom:95px;left:50%;transform:translateX(-50%);width:90px;height:90px;background:radial-gradient(circle,#ff3b3b,#a30000);border-radius:50%;border:3px dashed #fff; }
 
-#certText_Static1 { top:245px; font-weight:900; letter-spacing:2px; }
-
-/* NAME */
-#outName {
-  position:absolute;
-  top:280px;
-  left:50%;
-  transform:translateX(-50%);
-  font-family:'Cinzel', serif;
-  font-size:42px;
-  color:#8c6d1f;
-  white-space:nowrap;
-  max-width:60%;
-}
-
-/* NAME LINE */
-.name-line {
-  position:absolute;
-  top:320px;
-  left:50%;
-  transform:translateX(-50%);
-  width:50%;
-  border-bottom:2px solid #d4af37;
-}
-
-/* BODY */
-#outParticipation { top:350px; font-weight:900; }
-#outEvent { top:390px; font-size:34px; font-weight:900; color:#e31e24; line-height:1.2; }
-#outDetails { top:475px; font-weight:700; line-height:1.5; }
-
-/* SEAL */
-#redSeal {
-  position:absolute;
-  bottom:95px;
-  left:50%;
-  transform:translateX(-50%);
-  width:90px;
-  height:90px;
-  background:radial-gradient(circle,#ff3b3b,#a30000);
-  border-radius:50%;
-  border:3px dashed #fff;
-}
-
-/* SIGNATURES */
-.sig-container { position:absolute; bottom:80px; width:300px; text-align:center; }
-#sigLeft { left:110px; }
+.sig-container { position:absolute;bottom:80px;width:300px;text-align:center; }
+#sigLeft { left:110px; } 
 #sigRight { right:110px; }
 
-.sig-img { height:70px; margin-bottom:-18px; }
-.sig-line { border-top:2px solid #d4af37; opacity:.6; width:100%; }
-.sig-name { font-weight:900; color:#8c6d1f; margin-top:5px; }
-.sig-title { font-size:11px; font-weight:800; }
+.sig-img { height:70px;margin-bottom:-18px; }
+.sig-line { border-top:2px solid #d4af37;opacity:.6;width:100%; }
+.sig-name { font-weight:900;color:#8c6d1f;margin-top:5px; }
+.sig-title { font-size:11px;font-weight:800; }
 
-/* FOOTER */
-#footerID {
-  position:absolute;
-  bottom:18px;
-  right:45px;
-  font-weight:900;
-  font-size:20px;
-}
+#footerID { position:absolute;bottom:18px;right:45px;font-weight:900;font-size:20px; }
 
-@media (max-width:1040px) {
-  #certArea { transform:scale(.6); transform-origin:top center; }
-}
+@media(max-width:1040px){ #certArea{transform:scale(.6);transform-origin:top center;} }
 </style>
 </head>
 
@@ -180,10 +65,15 @@ button {
 <div class="form-container">
   <h2 style="text-align:center;color:#004aad;">UDUF Portal</h2>
 
-  <label>Preferred Certificate  Name</label>
+  <label>Access Code</label>
+  <input id="accessCodeInput" placeholder="Enter access code">
+
+  <p id="usageInfo"></p>
+
+  <label>Preferred Certificate Name</label>
   <input id="inName">
 
-  <label> Select Event</label>
+  <label>Select Event</label>
   <select id="inEvent">
     <option value="none">Choose...</option>
     <option value="ACTIVE LEADERSHIP AND ENTREPRENEURSHIP BOOTCAMP">Active Leadership & Entrepreneurship Bootcamp</option>
@@ -192,20 +82,21 @@ button {
     <option value="INTERNATIONAL YOUTH DAY">International Youth Day</option>
   </select>
 
-  <label>Select The Month Of The Event</label>
+  <label>Select Month</label>
   <select id="inMonth">
     <option>January</option><option>February</option><option>March</option><option>April</option>
     <option>May</option><option>June</option><option>July</option><option>August</option>
     <option>September</option><option>October</option><option>November</option><option>December</option>
   </select>
 
-  <label>Select The Date(s) For The Event</label>
+  <label>Select Date(s)</label>
   <div id="datePicker" class="date-grid"></div>
-  <label>Select Year Of The Event</label>
+
+  <label>Year</label>
   <input id="inYear" value="2026">
 
-  <button id="genBtn" onclick="generate()">GENERATE</button>
-  <button id="downloadBtn" onclick="download()">DOWNLOAD PDF</button>
+  <button id="genBtn" onclick="g()">GENERATE</button>
+  <button id="downloadBtn" onclick="d()">DOWNLOAD PDF</button>
 </div>
 
 <div id="previewWrapper">
@@ -234,7 +125,7 @@ button {
       <img src="director_sig.png" class="sig-img">
       <div class="sig-line"></div>
       <div class="sig-name">Chukwuekezie ThankGod</div>
-      <div class="sig-title">Director, Active Leadership and Entrepreneurship Bootcamp 2025.</div>
+      <div class="sig-title">Director, ALE Bootcamp</div>
     </div>
 
     <div id="footerID">CAC/IT/NO 103111</div>
@@ -242,70 +133,36 @@ button {
 </div>
 
 <script>
-const eventLogos = {
-  "ACTIVE LEADERSHIP AND ENTREPRENEURSHIP BOOTCAMP": "bootcamp_logo.png",
-  "UNDER 45 CEOs SUMMIT": "ceo_logo.png",
-  "AFRICAN DAY CELEBRATION": "african_logo.png",
-  "INTERNATIONAL YOUTH DAY": "youth_logo.png"
-};
+(()=>{const _0x=['BOOTCAMP-2026',3,'gen_count','2026-03-01T12:00:00'];
+const A=_0x[0],M=_0x[1],K=_0x[2],L=new Date(_0x[3]).getTime();
+if(Date.now()>=L){document.body.innerHTML='<h2 style="text-align:center;margin-top:40vh">Portal Closed</h2>';return;}
 
-const grid = document.getElementById("datePicker");
-let selectedDates = [];
+const e={"ACTIVE LEADERSHIP AND ENTREPRENEURSHIP BOOTCAMP":"bootcamp_logo.png","UNDER 45 CEOs SUMMIT":"ceo_logo.png","AFRICAN DAY CELEBRATION":"african_logo.png","INTERNATIONAL YOUTH DAY":"youth_logo.png"};
 
-for (let i = 1; i <= 31; i++) {
-  const d = document.createElement("div");
-  d.className = "date-item";
-  d.innerText = i;
-  d.onclick = () => {
-    d.classList.toggle("selected");
-    selectedDates.includes(i)
-      ? selectedDates = selectedDates.filter(x => x !== i)
-      : selectedDates.push(i);
-  };
-  grid.appendChild(d);
-}
+const gEl=document.getElementById("datePicker");let sd=[];
+for(let i=1;i<=31;i++){let d=document.createElement("div");d.className="date-item";d.innerText=i;d.onclick=()=>{d.classList.toggle("selected");sd.includes(i)?sd=sd.filter(x=>x!==i):sd.push(i)};gEl.appendChild(d);}
 
-function getOrdinal(n) {
-  return n + (["th","st","nd","rd"][(n%100-20)%10] || ["th","st","nd","rd"][n%100] || "th");
-}
+const o=n=>n+(["th","st","nd","rd"][(n%100-20)%10]||["th","st","nd","rd"][n%100]||"th");
+const f=()=>{let s=42;outName.style.fontSize=s+"px";while(outName.scrollWidth>outName.clientWidth&&s>26){s--;outName.style.fontSize=s+"px"}}
+const u=()=>usageInfo.innerText=`Remaining generations: ${M-(+localStorage.getItem(K)||0)}`;
+u();
 
-function fitName() {
-  const el = document.getElementById("outName");
-  let size = 42;
-  el.style.fontSize = size + "px";
+window.g=()=>{const c=accessCodeInput.value.trim();let n=+localStorage.getItem(K)||0;
+if(c!==A)return alert("Invalid access code");
+if(n>=M)return alert("You have reached your 3 generation limit");
+const name=inName.value.trim(),ev=inEvent.value;
+if(!name||ev==="none"||!sd.length)return alert("Fill all fields!");
+localStorage.setItem(K,n+1);u();
 
-  while (el.scrollWidth > el.clientWidth && size > 26) {
-    size--;
-    el.style.fontSize = size + "px";
-  }
-}
+eventLogo.src=e[ev];outName.innerText=name;f();
+outParticipation.innerText=`Fully participated in a ${sd.length} days`;
+outEvent.innerText=ev;
+outDetails.innerHTML=`Held on the ${sd.map(o).join(", ")} day of ${inMonth.value} ${inYear.value} at<br>Onitsha Business School Executive Hall, GRA Onitsha, Anambra State.`;
+previewWrapper.style.display="block";downloadBtn.style.display="block";};
 
-function generate() {
-  const name = inName.value.trim();
-  const event = inEvent.value;
-  const month = inMonth.value;
-  const year = inYear.value;
-
-  if (!name || event === "none" || !selectedDates.length) return alert("Fill all fields!");
-
-  eventLogo.src = eventLogos[event];
-  outName.innerText = name;
-  fitName();
-
-  outParticipation.innerText = `Fully participated in a ${selectedDates.length} days`;
-  outEvent.innerText = event;
-  outDetails.innerHTML = `Held on the ${selectedDates.map(getOrdinal).join(", ")} day of ${month} ${year} at<br>Onitsha Business School Executive Hall, GRA Onitsha, Anambra State.`;
-
-  previewWrapper.style.display = "block";
-  downloadBtn.style.display = "block";
-}
-
-async function download() {
-  const canvas = await html2canvas(certArea, { scale:3 });
-  const pdf = new jspdf.jsPDF("l","px",[1000,706]);
-  pdf.addImage(canvas.toDataURL(), "PNG", 0, 0, 1000, 706);
-  pdf.save("UDUF_Certificate.pdf");
-}
+window.d=async()=>{const c=await html2canvas(certArea,{scale:3});
+const p=new jspdf.jsPDF("l","px",[1000,706]);p.addImage(c.toDataURL(),"PNG",0,0,1000,706);p.save("UDUF_Certificate.pdf");};
+})();
 </script>
 
 </body>
