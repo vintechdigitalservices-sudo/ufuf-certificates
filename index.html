@@ -2,241 +2,303 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-0RNGJ2MB8L"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-0RNGJ2MB8L');
-</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UDUF Africa Certificate Generator</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@400;700;900&display=swap');
+
 :root { --primary:#004aad; --accent:#ff7a00; }
-body { font-family:Montserrat,sans-serif;background:#f0f2f5;padding:20px;display:flex;flex-direction:column;align-items:center; }
 
-.form-container { background:#fff;padding:25px;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.1);width:100%;max-width:450px;margin-bottom:20px; }
-label { font-weight:700;font-size:14px; }
-input, select { width:100%;padding:12px;border:1px solid #ddd;border-radius:6px;margin-bottom:10px; }
+body {
+  font-family: Montserrat, sans-serif;
+  background: #f0f2f5;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+}
 
-.date-grid { display:grid;grid-template-columns:repeat(7,1fr);gap:5px;padding:10px;background:#fafafa;border:1px solid #ddd;border-radius:6px; }
-.date-item { text-align:center;padding:8px;border:1px solid #ccc;cursor:pointer;border-radius:4px;background:#fff;font-size:12px; }
-.date-item.selected { background:var(--primary);color:#fff; }
+.form-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,.1);
+  width: 95%;
+  max-width: 450px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
 
-button { width:100%;padding:14px;border:none;border-radius:6px;font-weight:700;margin-top:10px;cursor:pointer; }
-#genBtn { background:var(--accent);color:#fff; }
-#downloadBtn { background:#27ae60;color:#fff;display:none; }
+label { font-weight:700; font-size:13px; display:block; margin-bottom:5px; }
+input, select { width:100%; padding:10px; border:1px solid #ddd; border-radius:6px; margin-bottom:12px; font-family:inherit; box-sizing: border-box; }
 
-#usageInfo { font-weight:800;color:#004aad;text-align:center;margin:10px 0; }
+.date-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:3px; padding:10px; background:#fafafa; border:1px solid #ddd; border-radius:6px; margin-bottom:15px; }
+.date-item { text-align:center; padding:5px; border:1px solid #ccc; cursor:pointer; border-radius:4px; background:#fff; font-size:10px; }
+.date-item.selected { background:var(--primary); color:#fff; }
 
-#previewWrapper { display:none;margin-top:20px;animation:slideUp .7s ease forwards;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch; }
-@keyframes slideUp { from{opacity:0;transform:translateY(60px)} to{opacity:1;transform:translateY(0)} }
+button { width:100%; padding:14px; border:none; border-radius:6px; font-weight:700; cursor:pointer; transition:0.3s; }
+#genBtn { background:var(--accent); color:#fff; margin-top: 10px; }
+#downloadBtn { background:#27ae60; color:#fff; display:none; width:auto; padding:12px 40px; margin: 20px auto; }
 
-#certArea { width:1000px;height:706px;position:relative;background:url('background.webp') no-repeat center/100% 100%;overflow:hidden;margin:0 auto; }
-#mainLogo { position:absolute;top:50px;left:70px;width:95px; }
-#eventLogo { position:absolute;top:45px;right:65px;width:220px;height:120px;object-fit:contain; }
+#usageInfo { text-align: center; font-size: 14px; font-weight: bold; color: var(--primary); margin: -5px 0 15px 0; }
 
-.overlay { position:absolute;left:50%;transform:translateX(-50%);text-align:center;width:80%; }
-#certText_Static1 { top:245px;font-weight:900;letter-spacing:2px; }
+#previewWrapper {
+  display: none;
+  width: 100%;
+  max-width: 1000px;
+  overflow: hidden; 
+  margin-top: 20px;
+}
 
-#outName {
-  position: absolute;
-  top: 280px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: 'Cinzel', serif;
-  font-size: 42px;
-  color: #8c6d1f;
+.canvas-scaler {
+  width: 1000px;
+  height: 706px;
+  transform-origin: top left;
+  margin-bottom: 20px;
+}
 
-  /* Fix overflow */
-  max-width: 80%;
-  text-align: center;
-  white-space: nowrap;
+#certArea {
+  width: 1000px;
+  height: 706px;
+  position: relative;
+  background: #fff url('background.webp') no-repeat center/cover;
   overflow: hidden;
-  text-overflow: ellipsis;
-}
-.name-line {
-  position: absolute;
-  top: 320px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60%;
-  max-width: 600px;
-  border-bottom: 2px solid #d4af37;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
 }
 
-#outParticipation { top:350px;font-weight:900; }
-#outEvent { top:390px;font-size:34px;font-weight:900;color:#e31e24;line-height:1.2; }
-#outDetails { top:475px;font-weight:700;line-height:1.5; }
+/* Small Logo Placements */
+#mainLogo { position:absolute; top:50px; left:75px; width:80px; height:auto; }
+#eventLogo { position:absolute; top:50px; right:75px; width:160px; height:auto; object-fit: contain; }
 
-#redSeal { position:absolute;bottom:95px;left:50%;transform:translateX(-50%);width:90px;height:90px;background:radial-gradient(circle,#ff3b3b,#a30000);border-radius:50%;border:3px dashed #fff; }
-
-.sig-container { position:absolute;bottom:80px;width:300px;text-align:center; }
-#sigLeft { left:110px; } 
-#sigRight { right:110px; }
-
-.sig-img { height:70px;margin-bottom:-18px; }
-.sig-line { border-top:2px solid #d4af37;opacity:.6;width:100%; }
-.sig-name { font-weight:900;color:#8c6d1f;margin-top:5px; }
-.sig-title { font-size:11px;font-weight:800; }
-
-#footerID { position:absolute;bottom:18px;right:45px;font-weight:900;font-size:20px; }
-
-/* Improved mobile preview */
-@media (max-width: 1040px) { 
-    #previewWrapper {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        padding: 10px 0;
-    }
-    
-    #certArea {
-        transform: none; /* Remove scaling */
-        margin: 0 auto;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-    
-    /* Add hint for scrolling */
-    #previewWrapper::after {
-        content: '← Scroll to see full certificate →';
-        display: block;
-        text-align: center;
-        padding: 10px;
-        color: #004aad;
-        font-size: 14px;
-        font-weight: 600;
-        opacity: 0.8;
-    }
+.content-body {
+    position: absolute;
+    top: 230px; 
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
-/* Optional: Add pinch-to-zoom hint for very small screens */
-@media (max-width: 500px) {
-    #previewWrapper::after {
-        content: '← Pinch/Scroll to zoom and view →';
-    }
+#certText_Static1 { font-weight:900; letter-spacing:0.15em; font-size:18px; margin-bottom: 12px; color:#000; }
+
+#outName { 
+    font-family:'Cinzel', serif; 
+    font-size:38px; 
+    color:#8c6d1f; 
+    padding-bottom: 5px;
+    border-bottom: 2.5px solid #d4af37;
+    min-width: 550px;
+    margin-bottom: 18px;
+    text-transform: uppercase;
 }
+
+#outParticipation { font-weight:900; font-size:18px; margin-bottom: 8px; color:#000; }
+#outEvent { font-size:28px; font-weight:900; color:#e31e24; line-height:1.1; margin-bottom: 8px; max-width: 85%; }
+
+#outThemeMain { font-weight:900; font-size:15px; color:#8c6d1f; margin-top: 5px; }
+#outThemeSub { font-weight:700; font-size:13px; color:#8c6d1f; margin-bottom: 15px; font-style: italic; }
+
+#outDetails { font-weight:700; line-height:1.4; font-size:14.5px; color: #333; }
+
+#imgSeal { 
+    position: absolute; 
+    bottom: 80px; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    width: 105px; 
+    height: auto;
+    z-index: 10;
+}
+
+.sig-container { position:absolute; bottom:65px; width:250px; text-align:center; }
+#sigLeft { left:80px; } 
+#sigRight { right:80px; }
+.sig-img { height:70px; width:auto; margin-bottom: 5px; }
+.sig-line { border-top:2px solid #d4af37; width:100%; margin-bottom: 5px; }
+.sig-name { font-weight:900; font-size:13.5px; margin:0; color:#000; }
+.sig-title { font-size:11.5px; font-weight:800; color:#444; margin:0; }
+
+#footerID { position:absolute; bottom:25px; right:60px; font-weight:900; font-size:16px; color:#000; }
+
 </style>
 </head>
 
 <body>
 
 <div class="form-container">
-  <h2 style="text-align:center;color:#004aad;">UDUF Portal</h2>
-
+  <h2 style="text-align:center; color:var(--primary); margin-top:0;">UDUF Portal</h2>
   <label>Access Code</label>
-  <input id="accessCodeInput" placeholder="Enter access code">
-
-  <p id="usageInfo"></p>
-
+  <input id="accessCodeInput" type="text" placeholder="Enter Access Code">
+  <p id="usageInfo">Remaining generations: Checking...</p>
+  
   <label>Preferred Certificate Name</label>
-  <input id="inName">
-
+  <input id="inName" placeholder="ENTER FULL NAME">
+  
   <label>Select Event</label>
   <select id="inEvent">
-    <option value="none">Choose...</option>
-    <option value="ACTIVE LEADERSHIP AND ENTREPRENEURSHIP BOOTCAMP">Active Leadership & Entrepreneurship Bootcamp</option>
+    <option value="ACTIVE LEADERSHIP AND ENTREPRENEURSHIP BOOTCAMP">Active Leadership and Entrepreneurship Bootcamp</option>
     <option value="UNDER 45 CEOs SUMMIT">Under 45 CEOs Summit</option>
-    <option value="AFRICAN DAY CELEBRATION">African Day Celebration</option>
-    <option value="INTERNATIONAL YOUTH DAY">International Youth Day</option>
+    <option value="AFRICAN DAY CELEBRATION">African day celebration</option>
+    <option value="INTERNATIONAL YOUTH DAY">International youth day</option>
   </select>
-
-  <label>Select the Month of the Event</label>
-  <select id="inMonth">
-    <option>January</option><option>February</option><option>March</option><option>April</option>
-    <option>May</option><option>June</option><option>July</option><option>August</option>
-    <option>September</option><option>October</option><option>November</option><option>December</option>
-  </select>
-
+  
+  <label>Select Month & Year</label>
+  <div style="display:flex; gap:10px;">
+      <select id="inMonth">
+        <option selected>January</option>
+        <option>February</option>
+        <option>March</option>
+        <option>April</option>
+        <option>May</option>
+        <option>June</option>
+        <option>July</option>
+        <option>August</option>
+        <option>September</option>
+        <option>October</option>
+        <option>November</option>
+        <option>December</option>
+      </select>
+      <input id="inYear" value="2026" type="number">
+  </div>
+  
   <label>Select Date(s) for the Event</label>
   <div id="datePicker" class="date-grid"></div>
-
-  <label>Year</label>
-  <input id="inYear" value="2026">
-
-  <button id="genBtn" onclick="g()">GENERATE</button>
-  <button id="downloadBtn" onclick="d()">DOWNLOAD PDF</button>
+  
+  <button id="genBtn" onclick="generateCertificate()">GENERATE CERTIFICATE</button>
 </div>
 
 <div id="previewWrapper">
-  <div id="certArea">
-    <img id="mainLogo" src="uduf_logo.webp">
-    <img id="eventLogo">
+    <div class="canvas-scaler" id="scaler">
+        <div id="certArea">
+            <img id="mainLogo" src="uduf_logo.webp">
+            <img id="eventLogo" src="bootcamp_logo.webp">
+            
+            <div class="content-body">
+                <div id="certText_Static1">THIS IS TO CERTIFY THAT</div>
+                <div id="outName"></div>
+                <div id="outParticipation"></div>
+                <div id="outEvent"></div>
+                <div id="outThemeMain"></div>
+                <div id="outThemeSub"></div>
+                <div id="outDetails"></div>
+            </div>
 
-    <div id="certText_Static1" class="overlay">THIS IS TO CERTIFY THAT</div>
-    <div id="outName"></div>
-    <div class="name-line"></div>
+            <img id="imgSeal" src="seal.webp">
 
-    <div id="outParticipation" class="overlay"></div>
-    <div id="outEvent" class="overlay"></div>
-    <div id="outDetails" class="overlay"></div>
+            <div id="sigLeft" class="sig-container">
+              <img src="president_sig.webp" class="sig-img">
+              <div class="sig-line"></div>
+              <p class="sig-name">Ezuma Smart Chinedu PhD.</p>
+              <p class="sig-title">Founding President</p>
+            </div>
 
-    <div id="redSeal"></div>
+            <div id="sigRight" class="sig-container">
+              <img src="director_sig.webp" class="sig-img">
+              <div class="sig-line"></div>
+              <p class="sig-name">Chukwuekezie ThankGod</p>
+              <p class="sig-title">Director, ALEB 2026</p>
+            </div>
 
-    <div id="sigLeft" class="sig-container">
-      <img src="president_sig.webp" class="sig-img">
-      <div class="sig-line"></div>
-      <div class="sig-name">Ezuma Smart Chinedu PhD.</div>
-      <div class="sig-title">Founding President</div>
+            <div id="footerID">CAC/IT/NO 103111</div>
+        </div>
     </div>
-
-    <div id="sigRight" class="sig-container">
-      <img src="director_sig.webp" class="sig-img">
-      <div class="sig-line"></div>
-      <div class="sig-name">Chukwuekezie ThankGod</div>
-      <div class="sig-title">Director,Active Leadership and Enterpreneurship Bootcamp 2026</div>
-    </div>
-
-    <div id="footerID">CAC/IT/NO 103111</div>
-  </div>
 </div>
 
+<button id="downloadBtn" onclick="downloadPDF()">DOWNLOAD PDF</button>
+
 <script>
-(()=>{const _0x=['BOOTCAMP-2026',3,'gen_count','2026-03-01T12:00:00'];
-const A=_0x[0],M=_0x[1],K=_0x[2],L=new Date(_0x[3]).getTime();
-if(Date.now()>=L){document.body.innerHTML='<h2 style="text-align:center;margin-top:40vh">Portal Closed</h2>';return;}
+    const CONFIG = {
+        STORAGE_KEY: 'uduf_final_v1',
+        MAX_GENERATIONS: 3,
+        ACCESS_CODE: 'BOOTCAMP-2026'
+    };
 
-const e={
-  "ACTIVE LEADERSHIP AND ENTREPRENEURSHIP BOOTCAMP":"bootcamp_logo.webp",
-  "UNDER 45 CEOs SUMMIT":"ceo_logo.webp",
-  "AFRICAN DAY CELEBRATION":"african_logo.webp",
-  "INTERNATIONAL YOUTH DAY":"youth_logo.webp"
-};
+    function getUsage() {
+        return parseInt(localStorage.getItem(CONFIG.STORAGE_KEY)) || 0;
+    }
 
-const gEl=document.getElementById("datePicker");let sd=[];
-for(let i=1;i<=31;i++){let d=document.createElement("div");d.className="date-item";d.innerText=i;d.onclick=()=>{d.classList.toggle("selected");sd.includes(i)?sd=sd.filter(x=>x!==i):sd.push(i)};gEl.appendChild(d);}
+    function updateUsageDisplay() {
+        const used = getUsage();
+        const remain = Math.max(0, CONFIG.MAX_GENERATIONS - used);
+        document.getElementById('usageInfo').innerText = `Remaining generations: ${remain} of ${CONFIG.MAX_GENERATIONS}`;
+        if(remain <= 0) {
+            document.getElementById('genBtn').disabled = true;
+            document.getElementById('genBtn').innerText = "LIMIT REACHED";
+        }
+    }
+    updateUsageDisplay();
 
-const o=n=>n+(["th","st","nd","rd"][(n%100-20)%10]||["th","st","nd","rd"][n%100]||"th");
-const f=()=>{let s=42;outName.style.fontSize=s+"px";while(outName.scrollWidth>outName.clientWidth&&s>26){s--;outName.style.fontSize=s+"px"}}
-const u=()=>usageInfo.innerText=`Remaining generations: ${M-(+localStorage.getItem(K)||0)}`;
-u();
+    const datePicker = document.getElementById("datePicker");
+    let selectedDates = [];
+    for(let i=1; i<=31; i++) {
+        let d = document.createElement("div"); d.className="date-item"; d.innerText=i;
+        d.onclick=function(){ 
+            this.classList.toggle("selected");
+            const val = parseInt(this.innerText);
+            if(selectedDates.includes(val)) selectedDates = selectedDates.filter(x => x !== val);
+            else selectedDates.push(val);
+            selectedDates.sort((a,b)=>a-b);
+        };
+        datePicker.appendChild(d);
+    }
 
-window.g=()=>{const c=accessCodeInput.value.trim();let n=+localStorage.getItem(K)||0;
-if(c!==A)return alert("Invalid access code");
-if(n>=M)return alert("You have reached your 3 generation limit");
-const name=inName.value.trim(),ev=inEvent.value;
-if(!name||ev==="none"||!sd.length)return alert("Fill all fields!");
-localStorage.setItem(K,n+1);u();
+    function adjustScale() {
+        const wrapper = document.getElementById('previewWrapper');
+        const scaler = document.getElementById('scaler');
+        const scale = wrapper.offsetWidth / 1000;
+        scaler.style.transform = `scale(${scale})`;
+        wrapper.style.height = (706 * scale) + "px";
+    }
+    window.addEventListener('resize', adjustScale);
 
-eventLogo.src=e[ev];outName.innerText=name;f();
-outParticipation.innerText=`Fully participated in a ${sd.length} days`;
-outEvent.innerText=ev;
-outDetails.innerHTML=`Held on the ${sd.map(o).join(", ")} day of ${inMonth.value} ${inYear.value} at<br>Onitsha Business School Executive Hall, GRA Onitsha, Anambra State.`;
-previewWrapper.style.display="block";downloadBtn.style.display="block";
+    function generateCertificate() {
+        const code = document.getElementById('accessCodeInput').value.trim();
+        if(code !== CONFIG.ACCESS_CODE) return alert("Invalid Access Code");
+        
+        const used = getUsage();
+        if(used >= CONFIG.MAX_GENERATIONS) return alert("Generation limit reached.");
 
-// Scroll preview into view smoothly
-previewWrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
-};
+        const name = document.getElementById('inName').value;
+        if(!name || selectedDates.length === 0) return alert("Please enter Name and select Dates");
 
-window.d=async()=>{const c=await html2canvas(certArea,{scale:3});
-const p=new jspdf.jsPDF("l","px",[1000,706]);p.addImage(c.toDataURL(),"PNG",0,0,1000,706);p.save("UDUF_Bootcamp2026_Certificate.pdf");};
-})();
+        document.getElementById('outName').innerText = name;
+        document.getElementById('outParticipation').innerText = `Fully participated in a ${selectedDates.length} day${selectedDates.length > 1 ? 's' : ''}`;
+        document.getElementById('outEvent').innerText = document.getElementById('inEvent').value;
+        
+        document.getElementById('outThemeMain').innerText = "THEME: INNOVATE, LEAD AND GROW";
+        document.getElementById('outThemeSub').innerText = "Strategies for Entrepreneurial Success";
+
+        const suffix = n => n + (n%10==1&&n%100!=11?'st':n%10==2&&n%100!=12?'nd':n%10==3&&n%100!=13?'rd':'th');
+        const dateStr = selectedDates.map(suffix).join(", ");
+        document.getElementById('outDetails').innerHTML = `Held on the ${dateStr} day of ${document.getElementById('inMonth').value} ${document.getElementById('inYear').value} at<br>Onitsha Business School Executive Hall, GRA Onitsha, Anambra State.`;
+
+        localStorage.setItem(CONFIG.STORAGE_KEY, (used + 1).toString());
+        updateUsageDisplay();
+
+        document.getElementById('previewWrapper').style.display = "block";
+        document.getElementById('downloadBtn').style.display = "block";
+        adjustScale();
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    async function downloadPDF() {
+        const btn = document.getElementById('downloadBtn');
+        btn.innerText = "Processing...";
+        const area = document.getElementById('certArea');
+        const canvas = await html2canvas(area, { scale: 2 });
+        const imgData = canvas.toDataURL('image/png');
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('l', 'px', [1000, 706]);
+        pdf.addImage(imgData, 'PNG', 0, 0, 1000, 706);
+        pdf.save("Certificate.pdf");
+        btn.innerText = "DOWNLOAD PDF";
+    }
 </script>
-
 </body>
 </html>
