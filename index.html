@@ -29,7 +29,7 @@ button { width:100%;padding:14px;border:none;border-radius:6px;font-weight:700;m
 #previewWrapper { display:none;margin-top:20px;animation:slideUp .7s ease forwards; }
 @keyframes slideUp { from{opacity:0;transform:translateY(60px)} to{opacity:1;transform:translateY(0)} }
 
-#certArea { width:1000px;height:706px;position:relative;background:url('background.jpg') no-repeat center/100% 100%;overflow:hidden; }
+#certArea { width:1000px;height:706px;position:relative;background:url('background.webp') no-repeat center/100% 100%;overflow:hidden; }
 #mainLogo { position:absolute;top:50px;left:70px;width:95px; }
 #eventLogo { position:absolute;top:45px;right:65px;width:220px;height:120px;object-fit:contain; }
 
@@ -82,14 +82,14 @@ button { width:100%;padding:14px;border:none;border-radius:6px;font-weight:700;m
     <option value="INTERNATIONAL YOUTH DAY">International Youth Day</option>
   </select>
 
-  <label>Select Month</label>
+  <label>Select the Month of the Event</label>
   <select id="inMonth">
     <option>January</option><option>February</option><option>March</option><option>April</option>
     <option>May</option><option>June</option><option>July</option><option>August</option>
     <option>September</option><option>October</option><option>November</option><option>December</option>
   </select>
 
-  <label>Select Date(s)</label>
+  <label>Select Date(s) for the Event</label>
   <div id="datePicker" class="date-grid"></div>
 
   <label>Year</label>
@@ -101,7 +101,7 @@ button { width:100%;padding:14px;border:none;border-radius:6px;font-weight:700;m
 
 <div id="previewWrapper">
   <div id="certArea">
-    <img id="mainLogo" src="uduf_logo.png">
+    <img id="mainLogo" src="uduf_logo.webp">
     <img id="eventLogo">
 
     <div id="certText_Static1" class="overlay">THIS IS TO CERTIFY THAT</div>
@@ -115,17 +115,17 @@ button { width:100%;padding:14px;border:none;border-radius:6px;font-weight:700;m
     <div id="redSeal"></div>
 
     <div id="sigLeft" class="sig-container">
-      <img src="president_sig.png" class="sig-img">
+      <img src="president_sig.webp" class="sig-img">
       <div class="sig-line"></div>
       <div class="sig-name">Ezuma Smart Chinedu PhD.</div>
       <div class="sig-title">Founding President</div>
     </div>
 
     <div id="sigRight" class="sig-container">
-      <img src="director_sig.png" class="sig-img">
+      <img src="director_sig.webp" class="sig-img">
       <div class="sig-line"></div>
       <div class="sig-name">Chukwuekezie ThankGod</div>
-      <div class="sig-title">Director, ALE Bootcamp</div>
+      <div class="sig-title">Director,Active Leadership and Enterpreneurship Bootcamp 2026</div>
     </div>
 
     <div id="footerID">CAC/IT/NO 103111</div>
@@ -133,11 +133,16 @@ button { width:100%;padding:14px;border:none;border-radius:6px;font-weight:700;m
 </div>
 
 <script>
-(()=>{const _0x=['BOOTCAMP-2026',3,'gen_count','2026-03-01T12:00:00'];
+(()=>{const _0x=['BOOTCAMP-2026',3,'gen_count_v2','2026-03-01T12:00:00'];
 const A=_0x[0],M=_0x[1],K=_0x[2],L=new Date(_0x[3]).getTime();
 if(Date.now()>=L){document.body.innerHTML='<h2 style="text-align:center;margin-top:40vh">Portal Closed</h2>';return;}
 
-const e={"ACTIVE LEADERSHIP AND ENTREPRENEURSHIP BOOTCAMP":"bootcamp_logo.png","UNDER 45 CEOs SUMMIT":"ceo_logo.png","AFRICAN DAY CELEBRATION":"african_logo.png","INTERNATIONAL YOUTH DAY":"youth_logo.png"};
+const e={
+  "ACTIVE LEADERSHIP AND ENTREPRENEURSHIP BOOTCAMP":"bootcamp_logo.webp",
+  "UNDER 45 CEOs SUMMIT":"ceo_logo.webp",
+  "AFRICAN DAY CELEBRATION":"african_logo.webp",
+  "INTERNATIONAL YOUTH DAY":"youth_logo.webp"
+};
 
 const gEl=document.getElementById("datePicker");let sd=[];
 for(let i=1;i<=31;i++){let d=document.createElement("div");d.className="date-item";d.innerText=i;d.onclick=()=>{d.classList.toggle("selected");sd.includes(i)?sd=sd.filter(x=>x!==i):sd.push(i)};gEl.appendChild(d);}
@@ -161,7 +166,7 @@ outDetails.innerHTML=`Held on the ${sd.map(o).join(", ")} day of ${inMonth.value
 previewWrapper.style.display="block";downloadBtn.style.display="block";};
 
 window.d=async()=>{const c=await html2canvas(certArea,{scale:3});
-const p=new jspdf.jsPDF("l","px",[1000,706]);p.addImage(c.toDataURL(),"PNG",0,0,1000,706);p.save("UDUF_Certificate.pdf");};
+const p=new jspdf.jsPDF("l","px",[1000,706]);p.addImage(c.toDataURL(),"PNG",0,0,1000,706);p.save("UDUF_Bootcamp2026_Certificate.pdf");};
 })();
 </script>
 
