@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
 <title>UDUF Africa Certificate Generator</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -26,18 +26,32 @@ button { width:100%;padding:14px;border:none;border-radius:6px;font-weight:700;m
 
 #usageInfo { font-weight:800;color:#004aad;text-align:center;margin:10px 0; }
 
-#previewWrapper { display:none;margin-top:20px;animation:slideUp .7s ease forwards; }
+#previewWrapper { display:none;margin-top:20px;animation:slideUp .7s ease forwards;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch; }
 @keyframes slideUp { from{opacity:0;transform:translateY(60px)} to{opacity:1;transform:translateY(0)} }
 
-#certArea { width:1000px;height:706px;position:relative;background:url('background.webp') no-repeat center/100% 100%;overflow:hidden; }
+#certArea { width:1000px;height:706px;position:relative;background:url('background.webp') no-repeat center/100% 100%;overflow:hidden;margin:0 auto; }
 #mainLogo { position:absolute;top:50px;left:70px;width:95px; }
 #eventLogo { position:absolute;top:45px;right:65px;width:220px;height:120px;object-fit:contain; }
 
 .overlay { position:absolute;left:50%;transform:translateX(-50%);text-align:center;width:80%; }
 #certText_Static1 { top:245px;font-weight:900;letter-spacing:2px; }
 
-#outName { position:absolute;top:280px;left:50%;transform:translateX(-50%);font-family:'Cinzel',serif;font-size:42px;color:#8c6d1f;white-space:nowrap;max-width:60%; }
-.name-line { position:absolute;top:320px;left:50%;transform:translateX(-50%);width:50%;border-bottom:2px solid #d4af37; }
+#outName {
+  position: absolute;
+  top: 280px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Cinzel', serif;
+  font-size: 42px;
+  color: #8c6d1f;
+
+  /* Fix overflow */
+  max-width: 80%;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 #outParticipation { top:350px;font-weight:900; }
 #outEvent { top:390px;font-size:34px;font-weight:900;color:#e31e24;line-height:1.2; }
@@ -56,7 +70,39 @@ button { width:100%;padding:14px;border:none;border-radius:6px;font-weight:700;m
 
 #footerID { position:absolute;bottom:18px;right:45px;font-weight:900;font-size:20px; }
 
-@media(max-width:1040px){ #certArea{transform:scale(.6);transform-origin:top center;} }
+/* Improved mobile preview */
+@media (max-width: 1040px) { 
+    #previewWrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 10px 0;
+    }
+    
+    #certArea {
+        transform: none; /* Remove scaling */
+        margin: 0 auto;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    
+    /* Add hint for scrolling */
+    #previewWrapper::after {
+        content: '← Scroll to see full certificate →';
+        display: block;
+        text-align: center;
+        padding: 10px;
+        color: #004aad;
+        font-size: 14px;
+        font-weight: 600;
+        opacity: 0.8;
+    }
+}
+
+/* Optional: Add pinch-to-zoom hint for very small screens */
+@media (max-width: 500px) {
+    #previewWrapper::after {
+        content: '← Pinch/Scroll to zoom and view →';
+    }
+}
 </style>
 </head>
 
@@ -163,7 +209,11 @@ eventLogo.src=e[ev];outName.innerText=name;f();
 outParticipation.innerText=`Fully participated in a ${sd.length} days`;
 outEvent.innerText=ev;
 outDetails.innerHTML=`Held on the ${sd.map(o).join(", ")} day of ${inMonth.value} ${inYear.value} at<br>Onitsha Business School Executive Hall, GRA Onitsha, Anambra State.`;
-previewWrapper.style.display="block";downloadBtn.style.display="block";};
+previewWrapper.style.display="block";downloadBtn.style.display="block";
+
+// Scroll preview into view smoothly
+previewWrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
+};
 
 window.d=async()=>{const c=await html2canvas(certArea,{scale:3});
 const p=new jspdf.jsPDF("l","px",[1000,706]);p.addImage(c.toDataURL(),"PNG",0,0,1000,706);p.save("UDUF_Bootcamp2026_Certificate.pdf");};
